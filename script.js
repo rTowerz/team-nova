@@ -18,10 +18,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const topic = input.value.trim();
         if (!topic) return;
 
-        // Generate mock flashcards based on topic
-        const flashcards = generateMockFlashcards(topic);
-        displayFlashcards(flashcards);
+        try {
+            // Call the Java backend API
+            const response = await fetch(`http://localhost:8080/generate?message=${encodeURIComponent(topic)}`);
+            
+            if (!response.ok) throw new Error('Failed to generate flashcards');
+            
+            const responseText = await response.text();
+            
+            // Parse the AI response and extract flashcards
+            const flashcards = parseAIResponse(responseText);
+            displayFlashcards(flashcards);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error generating flashcards. Please try again.');
+        }
     });
+
+    function parseAIResponse(response) {
+        try {
+            // Parse the response as JSON
+            const data = JSON.parse(response);
+            
+            // Backend now returns a clean array of flashcards
+            if (Array.isArray(data)) {
+                return data.map(card => ({
+                    question: card.concept || card.question || 'Question',
+                    answer: card.definition || card.answer || 'Answer'
+                }));
+            }
+            
+            // Fallback for other formats
+            return [
+                { question: 'Flashcard', answer: 'Unable to parse flashcard data' }
+            ];
+        } catch (error) {
+            console.error('Error parsing response:', error);
+            return [
+                { question: 'Error', answer: 'Could not parse flashcard data' }
+            ];
+        }
+    }
 
     function generateMockFlashcards(topic) {
         return [

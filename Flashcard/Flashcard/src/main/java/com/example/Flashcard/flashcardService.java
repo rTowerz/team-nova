@@ -1,12 +1,23 @@
 package com.example.Flashcard;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import java.util.Map;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 // This record helps Jackson map the JSON data
 record AIResponse(String status, String prompt) {}
+
+record Flashcard(String concept, String definition) {}
 
 @Service
 public class flashcardService {
@@ -33,7 +44,44 @@ public class flashcardService {
                 .retrieve()
                 .body(String.class);
 
-        // Return the raw JSON string directly to the controller
-        return rawResponse;
+        // Parse the response and extract flashcards
+        return extractFlashcardsFromResponse(rawResponse);
+    }
+
+    private String extractFlashcardsFromResponse(String rawResponse) throws Exception {
+        try {
+            // Parse the API response
+            AIResponse aiResponse = objectMapper.readValue(rawResponse, AIResponse.class);
+            String promptText = aiResponse.prompt();
+            
+            // Extract JSON array from prompt text using regex
+            Pattern pattern = Pattern.compile("\\[(.*?)\\]", Pattern.DOTALL);
+            Matcher matcher = pattern.matcher(promptText);
+            
+            if (matcher.find()) {
+                String jsonArrayStr = "[" + matcher.group(1) + "]";
+                
+                // Parse the JSON array
+                JsonNode arrayNode = objectMapper.readTree(jsonArrayStr);
+                List<Map<String, String>> flashcards = new ArrayList<>();
+                
+                for (JsonNode node : arrayNode) {
+                    Map<String, String> flashcard = new HashMap<>();
+                    flashcard.put("concept", node.get("concept").asText());
+                    flashcard.put("definition", node.get("definition").asText());
+                    flashcards.add(flashcard);
+                }
+                
+                // Return the flashcards as JSON
+                return objectMapper.writeValueAsString(flashcards);
+            }
+            
+            // Fallback: return empty array
+            return objectMapper.writeValueAsString(Collections.emptyList());
+            
+        } catch (Exception e) {
+            System.err.println("Error extracting flashcards: " + e.getMessage());
+            return objectMapper.writeValueAsString(Collections.emptyList());
+        }
     }
 }
