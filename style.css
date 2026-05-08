@@ -1,80 +1,87 @@
-*, *::before, *::after {
-  box-sizing: border-box;
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", Arial, sans-serif;
 }
 
-
 body {
-    font-family: sans-serif;
-    background-color: #f0f2f5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #312e81, #7c3aed);
+  color: white;
 }
 
 .container {
-    text-align: center;
-    width: 100%;
-    max-width: 580px;
+  width: 90%;
+  max-width: 600px;
+  padding: 50px 40px;
+  text-align: center;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .container h1 {
-    font-size: 2rem;
-    color: #1a1a1a;
-    margin-bottom: .5rem;
+  font-size: 42px;
+  margin-bottom: 15px;
+  line-height: 1.1;
 }
 
 .container p {
-    font-size: 1rem;
-    color: #777;
-    margin-bottom: 1.5rem;
+  font-size: 18px;
+  color: #dbeafe;
+  margin-bottom: 35px;
 }
 
 .input-inner {
-    display: flex;
-    align-items: center;
-    background: white;
-    border: 1.5px solid #ddd;
-    border-radius: 14px;
-    padding: .6rem .6rem .6rem 1,1rem;
-    gap: .5rem;
-    box-shadow: none;
-}
-
-input-inner:focus-within {
-  border-color: #7c6af7;
+  display: flex;
+  gap: 12px;
+  background: white;
+  padding: 8px;
+  border-radius: 18px;
 }
 
 .input-inner input {
-    flex: 1;
-    border: none;
-    outline: none;
-    font-size: .9rem;
-    font-family: inherit;
-    background: transparent;
-    color: #1a1a2e;
-}
-
-.input-inner input::placeholder {
-    color: #bbb;
-
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 16px;
+  font-size: 16px;
+  border-radius: 14px;
 }
 
 .Send {
-    background: #7c6af7;
-    color: white;
-    border: none;
-    border-radius: 9px;
-    padding: .5rem 1.1rem;
-    font-size: .9rem;
-    cursor: pointer;
-    font-weight: 600;
-    white-space: nowrap;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
 }
 
 .Send:hover {
-    background: #0c235d;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
+}
 
+@media (max-width: 600px) {
+  .container h1 {
+    font-size: 32px;
+  }
+
+  .input-inner {
+    flex-direction: column;
+  }
+
+  .Send {
+    width: 100%;
+  }
 }
