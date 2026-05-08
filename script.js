@@ -4,36 +4,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.container');
     const flashcardsDiv = document.getElementById('flashcards');
 
+    // Handle topic button clicks
+    const topicButtons = document.querySelectorAll('.topic-btn');
+    topicButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const topic = btn.getAttribute('data-topic');
+            input.value = topic;
+            button.click(); // Automatically generate flashcards for the selected topic
+        });
+    });
+
     button.addEventListener('click', async () => {
         const topic = input.value.trim();
         if (!topic) return;
 
-        try {
-            const response = await fetch('/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ topic })
-            });
-
-            if (!response.ok) throw new Error('Failed to generate flashcards');
-
-            const data = await response.json();
-            const flashcards = data.flashcards || [];
-
-            displayFlashcards(flashcards);
-        } catch (error) {
-            console.error('Error:', error);
-            // For demo, use mock data
-            const mockFlashcards = [
-                { question: 'What is the capital of France?', answer: 'Paris' },
-                { question: 'What is 2 + 2?', answer: '4' },
-                { question: 'What is the color of the sky?', answer: 'Blue' }
-            ];
-            displayFlashcards(mockFlashcards);
-        }
+        // Generate mock flashcards based on topic
+        const flashcards = generateMockFlashcards(topic);
+        displayFlashcards(flashcards);
     });
+
+    function generateMockFlashcards(topic) {
+        return [
+            { question: `What is ${topic}?`, answer: `${topic} is a topic you want to study.` },
+            { question: `Why study ${topic}?`, answer: `Studying ${topic} helps you gain knowledge and skills.` },
+            { question: `Key concepts in ${topic}`, answer: `Some key concepts include basics, advanced topics, and applications.` }
+        ];
+    }
 
     function displayFlashcards(flashcards) {
         container.classList.add('hidden');

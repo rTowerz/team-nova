@@ -38,6 +38,40 @@ body {
   margin-bottom: 35px;
 }
 
+.recommendations {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.recommendations h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #dbeafe;
+}
+
+.topic-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.topic-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.topic-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
 .input-inner {
   display: flex;
   gap: 12px;
