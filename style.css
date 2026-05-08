@@ -1,0 +1,80 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+    font-family: sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 580px;
+}
+
+.container h1 {
+    font-size: 2rem;
+    color: #1a1a1a;
+    margin-bottom: .5rem;
+}
+
+.container p {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 1.5rem;
+}
+
+.input-inner {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1.5px solid #ddd;
+    border-radius: 14px;
+    padding: .6rem .6rem .6rem 1,1rem;
+    gap: .5rem;
+    box-shadow: none;
+}
+
+input-inner:focus-within {
+  border-color: #7c6af7;
+}
+
+.input-inner input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: .9rem;
+    font-family: inherit;
+    background: transparent;
+    color: #1a1a2e;
+}
+
+.input-inner input::placeholder {
+    color: #bbb;
+
+}
+
+.Send {
+    background: #7c6af7;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: .5rem 1.1rem;
+    font-size: .9rem;
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.Send:hover {
+    background: #0c235d;
+
+}
